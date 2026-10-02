@@ -30,6 +30,15 @@ import "./index.css";
 
 
 // ============================================================
+// API CONFIGURATION
+// ============================================================
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://127.0.0.1:8000";
+
+
+// ============================================================
 // WHAT WE BUILD
 // ============================================================
 
@@ -438,7 +447,10 @@ function Products() {
 
 function Innovation() {
   return (
-    <section className="section innovation-section" id="innovation">
+    <section
+      className="section innovation-section"
+      id="innovation"
+    >
       <div className="section-label">
         <span>03</span> / INNOVATION
       </div>
@@ -641,7 +653,7 @@ function Contact() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/contact/",
+        `${API_BASE_URL}/api/contact/`,
         {
           method: "POST",
 
@@ -668,13 +680,14 @@ function Contact() {
         });
       } else {
         console.error("Validation error:", data);
+
         alert("Please check your details.");
       }
     } catch (error) {
       console.error("Server error:", error);
 
       alert(
-        "Unable to connect to the server. Make sure Django is running."
+        "Unable to connect to the server. Please try again."
       );
     }
   }

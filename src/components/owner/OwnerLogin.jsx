@@ -3,6 +3,10 @@ import { LockKeyhole, LogIn, Mail } from "lucide-react";
 
 import "./owner.css";
 
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://127.0.0.1:8000";
+
 function OwnerLogin({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -17,7 +21,7 @@ function OwnerLogin({ onLogin }) {
 
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/api/owner/login/",
+                `${API_BASE_URL}/api/owner/login/`,
                 {
                     method: "POST",
                     headers: {

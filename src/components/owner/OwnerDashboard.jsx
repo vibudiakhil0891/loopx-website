@@ -16,6 +16,10 @@ import {
 
 import "./owner.css";
 
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://127.0.0.1:8000";
+
 function OwnerDashboard({ onLogout }) {
     const [enquiries, setEnquiries] = useState([]);
     const [search, setSearch] = useState("");
@@ -36,7 +40,7 @@ function OwnerDashboard({ onLogout }) {
 
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/api/owner/enquiries/",
+                `${API_BASE_URL}/api/owner/enquiries/`,
                 {
                     method: "GET",
                     headers: {
@@ -88,7 +92,7 @@ function OwnerDashboard({ onLogout }) {
 
         try {
             const response = await fetch(
-                `http://127.0.0.1:8000/api/owner/enquiries/${id}/`,
+                `${API_BASE_URL}/api/owner/enquiries/${id}/`,
                 {
                     method: "PATCH",
                     headers: {
@@ -151,7 +155,7 @@ function OwnerDashboard({ onLogout }) {
 
         try {
             const response = await fetch(
-                `http://127.0.0.1:8000/api/owner/enquiries/${id}/`,
+                `${API_BASE_URL}/api/owner/enquiries/${id}/`,
                 {
                     method: "DELETE",
                     headers: {
@@ -217,7 +221,6 @@ function OwnerDashboard({ onLogout }) {
 
     return (
         <div className="owner-dashboard">
-            {/* Sidebar */}
             <aside
                 className={`owner-sidebar ${sidebarOpen ? "owner-sidebar-open" : ""
                     }`}
@@ -262,7 +265,6 @@ function OwnerDashboard({ onLogout }) {
                 </button>
             </aside>
 
-            {/* Mobile overlay */}
             {sidebarOpen && (
                 <div
                     className="owner-sidebar-overlay"
@@ -270,9 +272,7 @@ function OwnerDashboard({ onLogout }) {
                 />
             )}
 
-            {/* Main */}
             <main className="owner-main">
-                {/* Header */}
                 <header className="owner-header">
                     <button
                         type="button"
@@ -333,7 +333,6 @@ function OwnerDashboard({ onLogout }) {
                     </div>
                 </header>
 
-                {/* Statistics */}
                 <section className="owner-stats">
                     <div className="owner-stat-card">
                         <div className="owner-stat-icon">
@@ -380,7 +379,6 @@ function OwnerDashboard({ onLogout }) {
                     </div>
                 </section>
 
-                {/* Status summary */}
                 <section className="owner-status-summary">
                     <div>
                         <span className="status-dot status-new"></span>
@@ -401,7 +399,6 @@ function OwnerDashboard({ onLogout }) {
                     </div>
                 </section>
 
-                {/* Enquiries */}
                 <section className="owner-enquiries-card">
                     <div className="owner-enquiries-top">
                         <div>
@@ -426,14 +423,12 @@ function OwnerDashboard({ onLogout }) {
                         </div>
                     </div>
 
-                    {/* Loading */}
                     {loading && (
                         <div className="owner-loading">
                             Loading enquiries...
                         </div>
                     )}
 
-                    {/* Empty */}
                     {!loading &&
                         filteredEnquiries.length === 0 && (
                             <div className="owner-empty">
@@ -447,7 +442,6 @@ function OwnerDashboard({ onLogout }) {
                             </div>
                         )}
 
-                    {/* Table */}
                     {!loading &&
                         filteredEnquiries.length > 0 && (
                             <div className="owner-table-wrapper">
