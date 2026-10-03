@@ -126,12 +126,45 @@ class OwnerEnquiryDetailAPIView(APIView):
         )
 
 
+class OwnerSetupDebugAPIView(APIView):
+    """
+    Temporary diagnostic endpoint.
+
+    It checks whether the production environment variable
+    and request header exist and whether they match.
+
+    It never returns the actual token.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        expected_token = os.environ.get("OWNER_SETUP_TOKEN")
+        received_token = request.headers.get("X-Owner-Setup-Token")
+
+        return Response(
+            {
+                "environment_token_exists": bool(expected_token),
+                "environment_token_length": (
+                    len(expected_token) if expected_token else 0
+                ),
+                "received_token_exists": bool(received_token),
+                "received_token_length": (
+                    len(received_token) if received_token else 0
+                ),
+                "tokens_match": (
+                    bool(expected_token)
+                    and bool(received_token)
+                    and received_token == expected_token
+                ),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
 class OwnerSetupAPIView(APIView):
     """
     Temporary protected endpoint for creating the production owner account.
-
-    This endpoint should be removed immediately after the owner account
-    has been created.
     """
 
     permission_classes = [AllowAny]
